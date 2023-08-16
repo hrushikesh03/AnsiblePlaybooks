@@ -1,0 +1,39 @@
+---
+- name: My Test Playbook for Tomcat
+  hosts: all
+  become: yes
+  tasks:
+  - name: Install Java in RedHat
+    yum:
+      name: java
+      state: installed
+    when: ansible_os_family == "RedHat"
+
+  - name: Install default-jdk in Debian
+    apt:
+      name: default-jdk
+      state: present
+    when: ansible_os_family == "Debian"
+
+  - name: Download tomcat
+    get_url:
+      url: https://dlcdn.apache.org/tomcat/tomcat-8/v8.5.91/bin/apache-tomcat-8.5.91.tar.gz
+      dest: /opt
+
+  - name: Extract(unzip) tomcat file(apache-tomcat-8.5.91.tar.gz)
+    unarchive:
+     src: /opt/apache-tomcat-8.5.91.tar.gz
+     dest: /opt
+     remote_src: yes
+
+
+  - name: give all permission to startup.sh file
+    file:
+      path: /opt/apache-tomcat-8.5.91/bin/startup.sh
+      mode: 0777
+
+  - name: Excute(run startup.sh) file to start tomcat service
+    shell: nohup ./startup.sh
+    args:
+      chdir: /opt/apache-tomcat-8.5.91/bin
+

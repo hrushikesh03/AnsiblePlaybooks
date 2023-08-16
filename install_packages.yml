@@ -1,0 +1,9 @@
+---
+- name: My Test Playbook 
+  hosts: all
+  become: yes
+  tasks:
+  - name: Install Packages
+    yum:
+      name: git
+      state: installed

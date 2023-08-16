@@ -1,0 +1,11 @@
+---
+- name: My Test Playbook
+  hosts: all
+  become: true
+  tasks:
+  - name: Installed Multiple Package
+    yum: name='{{ item }}' state=installed
+    with_items:
+      - git
+      - httpd
+      - tree
