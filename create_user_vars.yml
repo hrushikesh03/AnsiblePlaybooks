@@ -1,0 +1,10 @@
+---
+- name: My test playbook
+  hosts: all
+  become: yes
+  vars:
+    user: ram
+  tasks: 
+  - name: crate  {{user}}
+    user: 
+     name: "{{user}}"
